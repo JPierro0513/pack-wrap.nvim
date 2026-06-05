@@ -13,12 +13,12 @@ end, { desc = 'List all installed plugins' })
 
 vim.api.nvim_create_user_command('PackUpdate', function(opts)
   local name = #opts.fargs > 0 and opts.fargs[1] or nil
-  pack.update_plugin(name, opts.bang)
+  pack.update_plugins(name, opts.bang)
 end, {
   desc = 'Update plugin(s) - specify name or leave empty for all',
   bang = true,
   nargs = '*',
-  complete = pack.complete_plugin_names,
+  complete = require('pack-wrap.utils').complete_plugin_names,
 })
 
 vim.api.nvim_create_user_command('PackDelete', function(opts)
@@ -27,5 +27,5 @@ vim.api.nvim_create_user_command('PackDelete', function(opts)
 end, {
   desc = 'Delete one or more plugins (space-separated)',
   nargs = '+',
-  complete = pack.complete_plugin_names,
+  complete = require('pack-wrap.utils').complete_plugin_names,
 })
