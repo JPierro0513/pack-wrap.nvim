@@ -6,9 +6,9 @@ local function _load(plugin)
   vim.cmd.packadd(plugin.spec.name)
 
   local data = plugin.spec.data
-  local mod = require(data.module_name or plugin.spec.name:gsub('%.nvim$', ''))
 
   if data.opts ~= nil then
+    local mod = require(data.module_name or plugin.spec.name:gsub('%.nvim$', ''))
     local opts = type(data.opts) == 'function' and data.opts() or data.opts
     mod.setup(opts or {})
   end
