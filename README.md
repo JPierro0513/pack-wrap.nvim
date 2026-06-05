@@ -58,13 +58,13 @@ Any lua file inside this directory will automatically get included in the vim ru
 -- plugin/blink.lua
 require('pack-wrap').add({
   { 'saghen/blink.lib' },
-  { 'saghen/blink.cmp'
+  { 'saghen/blink.cmp',
     event = 'InsertEnter',
     build = function()
       vim.cmd.packadd('blink.lib')
       require('blink.cmp').build():pwait()
     end,
-    opts = {...}
+    opts = {},
   },
   ...
 })
