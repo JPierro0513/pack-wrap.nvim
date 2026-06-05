@@ -28,8 +28,7 @@ Each plugin is declared as a table. The only required field is the GitHub shorth
   pattern = '*.lua',        -- optional: event pattern for lazy loading
   build = ':TSUpdate',      -- optional: run after install/update (see Build Hooks)
   opts = {},                -- optional: passed to plugin.setup(opts)
-  config = function()       -- optional: called after load (runs after opts setup)
-  end,
+  config = function() end,  -- optional: called after load (runs after opts setup)
   keys = {                  -- optional: keybindings registered after load
     { '<leader>f', function() end, 'Description' },
   },
@@ -38,7 +37,20 @@ Each plugin is declared as a table. The only required field is the GitHub shorth
 
 ## Usage
 
-### Load from plugin/
+```lua
+require('pack-wrap').add({
+  { 'nvim-treesitter/nvim-treesitter', version = 'main', build = ':TSUpdate' },
+  { 'folke/which-key.nvim', opts = {} },
+})
+```
+
+A single spec (not wrapped in a list) also works:
+
+```lua
+require('pack-wrap').add({ 'folke/which-key.nvim', opts = {} })
+```
+
+### Load from ~/.config/nvim/plugin/ folder
 
 Any lua file inside this directory will automatically get included in the vim runtime and get run.
 
@@ -87,27 +99,12 @@ return {
 }
 ```
 
-### Load from a table
-
-```lua
-require('pack-wrap').add({
-  { 'nvim-treesitter/nvim-treesitter', version = 'main', build = ':TSUpdate' },
-  { 'folke/which-key.nvim', opts = {} },
-})
-```
-
-A single spec (not wrapped in a list) also works:
-
-```lua
-require('pack-wrap').add({ 'folke/which-key.nvim', opts = {} })
-```
-
 ### Lazy loading
 
 Defer loading until an event fires. Plugins sharing the same event and pattern are batched into a single `vim.pack.add` call:
 
 ```lua
-{ 'nvim-telescope/telescope.nvim', event = 'VeryLazy' }
+{ 'nvim-telescope/telescope.nvim', event = 'VimEnter' }
 
 { 'some/ft-plugin', event = 'FileType', pattern = '*.lua' }
 
